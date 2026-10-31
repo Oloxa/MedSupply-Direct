@@ -65,31 +65,24 @@ const STORAGE_KEY_ONBOARDING = 'medsupply_onboarding_done';
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<UserProfile | null>(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY_USER);
-      if (saved) {
-        return JSON.parse(saved);
-      }
-    } catch {
-      // Fallback
-    }
-    return INITIAL_USER_PROFILE;
-  });
+  // Always start with user = null so the login page displays first before any dashboard/app UI
+  const [user, setUser] = useState<UserProfile | null>(null);
 
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState<boolean>(() => {
     return localStorage.getItem(STORAGE_KEY_ONBOARDING) === 'true';
   });
 
+  // Clean up any stale auto-login session on initial load so login screen always opens first
   useEffect(() => {
-    if (user) {
-      localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(user));
-    } else {
+    try {
+      sessionStorage.removeItem('medsupply_logged_in');
       localStorage.removeItem(STORAGE_KEY_USER);
+    } catch {
+      // Storage access safety
     }
-  }, [user]);
+  }, []);
 
-  const login = (email: string = 'e.vance@stjude-health.org', orgType: 'Hospital' | 'Pharmacy' | 'Clinic' = 'Hospital') => {
+  const login = (email: string = 'tester.procurement@medsupplydirect.com', orgType: 'Hospital' | 'Pharmacy' | 'Clinic' = 'Hospital') => {
     const org = DEMO_ORGANIZATIONS[orgType];
     const newUser: UserProfile = {
       ...INITIAL_USER_PROFILE,
@@ -97,10 +90,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       name: email.split('@')[0].replace('.', ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
       organization: org,
     };
+    sessionStorage.setItem('medsupply_logged_in', 'true');
     setUser(newUser);
   };
 
   const logout = () => {
+    sessionStorage.removeItem('medsupply_logged_in');
+    localStorage.removeItem(STORAGE_KEY_USER);
     setUser(null);
   };
 

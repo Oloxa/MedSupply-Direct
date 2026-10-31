@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, ShoppingBag, Bell, Building2, User, ChevronDown, Check } from 'lucide-react';
+import { Search, ShoppingBag, Bell, Building2, User, ChevronDown, Check, LogOut } from 'lucide-react';
 import { useAuth, DEMO_ORGANIZATIONS } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -9,7 +9,7 @@ interface TopBarProps {
 }
 
 export const TopBar: React.FC<TopBarProps> = ({ onOpenCommandPalette }) => {
-  const { user, updateOrganizationType } = useAuth();
+  const { user, updateOrganizationType, logout } = useAuth();
   const { itemCount, lineCount, setIsCartDrawerOpen } = useCart();
   const location = useLocation();
   const navigate = useNavigate();
@@ -137,6 +137,19 @@ export const TopBar: React.FC<TopBarProps> = ({ onOpenCommandPalette }) => {
             <p className="text-xs font-bold text-[#12304A] leading-tight">{user?.name}</p>
             <span className="text-[10px] text-slate-400">{user?.role}</span>
           </div>
+        </button>
+
+        {/* Quick Sign Out Icon */}
+        <button
+          type="button"
+          onClick={() => {
+            logout();
+            navigate('/login');
+          }}
+          className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+          title="Sign Out to Login Page"
+        >
+          <LogOut className="w-4 h-4" />
         </button>
       </div>
     </header>

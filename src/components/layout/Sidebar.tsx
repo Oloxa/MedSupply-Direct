@@ -12,15 +12,18 @@ import {
   PhoneCall,
   ChevronRight,
   ShieldCheck,
+  LogOut,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useOrders } from '../../context/OrderContext';
+import { useNavigate } from 'react-router-dom';
 
 export const Sidebar: React.FC = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { itemCount, lineCount } = useCart();
   const { orders } = useOrders();
+  const navigate = useNavigate();
 
   const openOrdersCount = orders.filter(
     (o) => o.status === 'Placed' || o.status === 'Confirmed' || o.status === 'Packed' || o.status === 'Shipped'
@@ -173,6 +176,17 @@ export const Sidebar: React.FC = () => {
               Email Desk
             </a>
           </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              logout();
+              navigate('/login');
+            }}
+            className="w-full mt-1.5 py-1.5 px-2 rounded-lg text-[11px] font-semibold text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition-colors flex items-center justify-center gap-1.5 border border-slate-200"
+          >
+            <LogOut className="w-3.5 h-3.5" /> Sign Out to Login
+          </button>
         </div>
       </div>
     </aside>
