@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function() {
+        try {
+          var _origFetch = window.fetch;
+          Object.defineProperty(window, 'fetch', {
+            get: function() { return _origFetch; },
+            set: function(val) { _origFetch = val; },
+            configurable: true,
+            enumerable: true
+          });
+        } catch (e) {
+          try {
+            window.fetch = window.fetch;
+          } catch (_) {}
+        }
+        try {
+          if (typeof Window !== 'undefined' && Window.prototype) {
+            var desc = Object.getOwnPropertyDescriptor(Window.prototype, 'fetch');
+            if (desc && !desc.set && desc.configurable) {
+              Object.defineProperty(Window.prototype, 'fetch', {
+                get: desc.get,
+                set: function(val) {
+                  Object.defineProperty(this, 'fetch', {
+                    value: val,
+                    writable: true,
+                    configurable: true,
+                    enumerable: true
+                  });
+                },
+                configurable: true,
+                enumerable: true
+              });
+            }
+          }
+        } catch (_) {}
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>MedSupply Direct — B2B Wholesale Medical Consumables & Equipment</title>
+    <meta name="description" content="B2B wholesale medical consumables and equipment ordering portal for hospitals, pharmacies, and clinics." />
+    <meta property="og:title" content="MedSupply Direct — B2B Wholesale Medical Portal" />
+    <meta property="og:description" content="Wholesale medical consumables and equipment ordering portal for hospitals, pharmacies, and clinics." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-slate-50 text-[#12304A] antialiased selection:bg-[#E6F4FA] selection:text-[#0E9AA7]">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

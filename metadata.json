@@ -1,0 +1,6 @@
+{
+  "name": "MedSupply Direct",
+  "description": "B2B wholesale medical consumables and equipment ordering portal for hospitals, pharmacies, and clinics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

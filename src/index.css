@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-teal-50: #F0F9FA;
+  --color-teal-100: #E6F4FA;
+  --color-teal-200: #BDE4ED;
+  --color-teal-500: #0E9AA7;
+  --color-teal-600: #0B8591;
+  --color-teal-700: #086D77;
+  --color-teal-800: #06545C;
+
+  --color-navy-900: #12304A;
+  --color-navy-800: #1A3E5E;
+  --color-navy-700: #255077;
+  --color-navy-600: #366591;
+
+  --color-coral-50: #FEF2F1;
+  --color-coral-500: #F26B5B;
+  --color-coral-600: #E05342;
+}
+
+:root {
+  font-family: var(--font-sans);
+  color: #12304A;
+  background-color: #F8FAFC;
+}
+
+/* Playful & Medical Keyframe Animations */
+@keyframes funny-wobble {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  15% { transform: translateX(-8px) rotate(-3deg); }
+  30% { transform: translateX(7px) rotate(2.5deg); }
+  45% { transform: translateX(-6px) rotate(-2deg); }
+  60% { transform: translateX(5px) rotate(1.5deg); }
+  75% { transform: translateX(-3px) rotate(-1deg); }
+  90% { transform: translateX(2px) rotate(0.5deg); }
+}
+
+@keyframes ecg-draw {
+  0% { stroke-dashoffset: 400; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-wobble {
+  animation: funny-wobble 0.65s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.animate-bounce-gentle {
+  animation: bounce-gentle 1.8s ease-in-out infinite;
+}
+
+.animate-ecg {
+  stroke-dasharray: 400;
+  animation: ecg-draw 2s linear infinite;
+}
+
+/* Custom scrollbars for high-density tables and drawers */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Print-friendly styles for invoices */
+@media print {
+  aside, header, nav, .no-print {
+    display: none !important;
+  }
+  body, main {
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
